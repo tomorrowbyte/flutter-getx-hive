@@ -7,6 +7,8 @@ class TodosScreen extends StatelessWidget {
   final controller = Get.put(TodoController());
 
   void addTodo() {
+    if (controller.titleController.text.isEmpty ||
+        controller.descriptionController.text.isEmpty) return;
     var todo = Todo(
       title: controller.titleController.text,
       description: controller.descriptionController.text,
@@ -23,7 +25,11 @@ class TodosScreen extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            margin: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            margin: const EdgeInsets.only(
+              top: 40,
+              left: 20,
+              right: 20,
+            ),
             child: Column(
               children: [
                 Text(
@@ -33,22 +39,58 @@ class TodosScreen extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "Enter title"),
-                  controller: controller.titleController,
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: "Enter title",
+                      border: InputBorder.none,
+                    ),
+                    controller: controller.titleController,
+                    onEditingComplete: () {
+                      controller.descriptioinFocus.requestFocus();
+                    },
+                  ),
                 ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "Enter description"),
-                  controller: controller.descriptionController,
+                Container(
+                  height: 200,
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: Colors.grey,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: TextFormField(
+                    maxLines: 10,
+                    focusNode: controller.descriptioinFocus,
+                    decoration: InputDecoration(
+                      hintText: "Enter description",
+                      border: InputBorder.none,
+                    ),
+                    controller: controller.descriptionController,
+                  ),
                 ),
               ],
             ),
           ),
-          TextButton.icon(
+          SizedBox(height: 10),
+          ElevatedButton.icon(
             onPressed: addTodo,
-            icon: Icon(Icons.add_task),
+            icon: Icon(Icons.add),
             label: Text("Submit"),
           ),
+          SizedBox(height: 10),
           Divider(),
           Obx(
             () => Text(
@@ -75,13 +117,26 @@ class TodosScreen extends StatelessWidget {
                       },
                       key: UniqueKey(),
                       child: ListTile(
-                        hoverColor: Colors.green,
-                        leading: Icon(Icons.task_alt, color: Colors.blue),
+                        onTap: () {
+                          controller.toggleTodo(index);
+                        },
+                        leading: Icon(
+                          controller.todos[index].isDone
+                              ? Icons.done
+                              : Icons.cancel,
+                          color: controller.todos[index].isDone
+                              ? Colors.blue
+                              : Colors.grey,
+                          size: 42,
+                        ),
                         title: Text(
                           controller.todos[index].title,
                         ),
                         subtitle: Text(
                           controller.todos[index].description,
+                        ),
+                        trailing: Text(
+                          controller.todos[index].cdt.substring(0, 10),
                         ),
                       ),
                     );

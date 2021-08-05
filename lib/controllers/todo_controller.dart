@@ -8,6 +8,8 @@ class TodoController extends GetxController {
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  FocusNode titleFocus = FocusNode();
+  FocusNode descriptioinFocus = FocusNode();
 
   onInit() {
     try {
@@ -52,6 +54,14 @@ class TodoController extends GetxController {
 
   deleteTodo(index) async {
     todos.removeAt(index);
+    var box = await Hive.openBox('db');
+    box.put('todos', todos.toList());
+  }
+
+  toggleTodo(index) async {
+    var todo = todos[index];
+    todo.isDone = !todo.isDone;
+    todos[index] = todo;
     var box = await Hive.openBox('db');
     box.put('todos', todos.toList());
   }
