@@ -5,7 +5,7 @@ import 'package:getx_hive/models/todo.dart';
 
 class TodosScreen extends StatelessWidget {
   final controller = Get.put(TodoController());
-
+ 
   void addTodo() {
     if (controller.titleController.text.isEmpty ||
         controller.descriptionController.text.isEmpty) return;
