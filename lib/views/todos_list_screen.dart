@@ -5,7 +5,7 @@ import 'package:getx_hive/models/todo.dart';
 
 class TodosScreen extends StatelessWidget {
   final controller = Get.put(TodoController());
- 
+
   void addTodo() {
     if (controller.titleController.text.isEmpty ||
         controller.descriptionController.text.isEmpty) return;
@@ -22,6 +22,7 @@ class TodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: [
           Container(
@@ -40,14 +41,12 @@ class TodosScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  height: 40,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
-                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   child: TextFormField(
                     autofocus: true,
@@ -65,10 +64,11 @@ class TodosScreen extends StatelessWidget {
                   height: 200,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: Colors.grey,
-                    ),
+                    color: Colors.white,
+                    // border: Border.all(
+                    //   width: 1,
+                    //   color: Colors.grey,
+                    // ),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextFormField(
