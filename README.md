@@ -1,6 +1,6 @@
 # Getx Hive
 
-A simple todo app, 
+A simple todo app, using `GETX` package for state management & navigation. and using Hive DB for database. 
 
 ## How to setup
 
