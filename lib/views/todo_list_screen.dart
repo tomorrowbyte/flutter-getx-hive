@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_hive/controllers/todo_controller.dart';
 import 'package:getx_hive/models/todo.dart';
+import 'package:getx_hive/views/view_todo_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class MyTodosScreen extends StatelessWidget {
   final controller = Get.put(TodoController());
@@ -10,55 +12,161 @@ class MyTodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("My Todos"),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.grey[200],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 45),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Icon(Icons.arrow_back_ios_new),
+                ),
                 Text(
-                  "Todos list",
+                  "My Todos",
                   style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-                SizedBox(height: 10),
+                Icon(Icons.notification_important),
               ],
             ),
           ),
-          Expanded(child: _buildBody()),
+          SizedBox(height: 10),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              "Completed",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          Expanded(child: _buildCompleted()),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: Text(
+              "Remaining",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+          Expanded(child: _buildInCompleted()),
         ],
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildCompleted() {
+    return Obx(
+      () => Container(
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: controller.done.length,
+          itemBuilder: (context, index) {
+            Todo todo = controller.done[index];
+            return GestureDetector(
+              onTap: () {
+                Get.to(() => ViewTodoScreen(todo: todo));
+              },
+              onLongPress: () {
+                controller.toggleTodo(todo);
+              },
+              child: TodoCard(
+                isDone: todo.isDone,
+                title: todo.title,
+                date: todo.cdt,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInCompleted() {
+    return Obx(
+      () => Container(
+        child: ListView.builder(
+          itemCount: controller.remaining.length,
+          itemBuilder: (context, index) {
+            Todo todo = controller.remaining[index];
+            return GestureDetector(
+              onLongPress: () {
+                controller.toggleTodo(todo);
+              },
+              child: TodoCard(
+                isDone: todo.isDone,
+                title: todo.title,
+                date: todo.cdt,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class TodoCard extends StatelessWidget {
+  const TodoCard({
+    Key? key,
+    required this.title,
+    required this.date,
+    required this.isDone,
+  }) : super(key: key);
+  final String title;
+  final DateTime date;
+  final bool isDone;
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      child: ListView.builder(
-        itemCount: controller.todos.length,
-        itemBuilder: (context, index) {
-          Todo todo = controller.todos[index];
-          return Dismissible(
-            onDismissed: (direction) {
-              print(direction);
-              controller.deleteTodo(index);
-            },
-            key: UniqueKey(),
-            child: ListTile(
-              onTap: () {},
-              leading: Icon(Icons.gesture_sharp),
-              title: Text(todo.title),
-              subtitle: Text(todo.description),
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      margin: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+      height: 100,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey[300]!,
+            blurRadius: 20,
+            spreadRadius: 1,
+          )
+        ],
+        color: isDone ? Colors.green[50] : Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Icon(
+                  Icons.task_alt,
+                  color: isDone ? Colors.green : Colors.grey,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+          Text(timeago.format(date)),
+        ],
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:hive/hive.dart';
 
 class TodoController extends GetxController {
   var todos = [].obs;
+  var done = [].obs;
+  var remaining = [].obs;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -41,6 +43,13 @@ class TodoController extends GetxController {
     var tds = box.get('todos');
     print("TODOS $tds");
     if (tds != null) todos.value = tds;
+    for (Todo todo in todos) {
+      if (todo.isDone) {
+        done.add(todo);
+      } else {
+        remaining.add(todo);
+      }
+    }
   }
 
   clearTodos() {
@@ -52,16 +61,24 @@ class TodoController extends GetxController {
     todos.value = [];
   }
 
-  deleteTodo(index) async {
-    todos.removeAt(index);
+  deleteTodo(Todo todo) async {
+    todos.remove(todo);
     var box = await Hive.openBox('db');
     box.put('todos', todos.toList());
   }
 
-  toggleTodo(index) async {
-    var todo = todos[index];
-    todo.isDone = !todo.isDone;
-    todos[index] = todo;
+  toggleTodo(Todo todo) async {
+    var index = todos.indexOf(todo);
+    var editTodo = todos[index];
+    editTodo.isDone = !editTodo.isDone;
+    if (editTodo.isDone) {
+      done.add(editTodo);
+      remaining.remove(editTodo);
+    } else {
+      done.remove(editTodo);
+      remaining.add(editTodo);
+    }
+    todos[index] = editTodo;
     var box = await Hive.openBox('db');
     box.put('todos', todos.toList());
   }

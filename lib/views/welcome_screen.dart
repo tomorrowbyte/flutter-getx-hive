@@ -10,6 +10,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,6 +31,21 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 20),
+          Container(
+            alignment: Alignment.center,
+            margin: const EdgeInsets.symmetric(
+              horizontal: 10,
+            ),
+            child: Text(
+              "My Todoey hepls you stay organized and perform your tasks much faster.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 18,
               ),
             ),
           ),
