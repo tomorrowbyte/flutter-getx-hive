@@ -30,156 +30,212 @@ class TodosScreen extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(
-              top: 40,
-              left: 20,
-              right: 20,
-            ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Add your task to list",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900,
+      body: Container(
+        height: Get.height,
+        child: Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              height: Get.height,
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(
+                      top: 40,
+                      left: 20,
+                      right: 20,
                     ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  height: 40,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: TextFormField(
-                    autofocus: true,
-                    decoration: InputDecoration(
-                      hintText: "Enter title",
-                      border: InputBorder.none,
-                    ),
-                    controller: controller.titleController,
-                    onEditingComplete: () {
-                      controller.descriptioinFocus.requestFocus();
-                    },
-                  ),
-                ),
-                Container(
-                  height: 200,
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextFormField(
-                    maxLines: 10,
-                    focusNode: controller.descriptioinFocus,
-                    decoration: InputDecoration(
-                      hintText: "Enter description",
-                      border: InputBorder.none,
-                    ),
-                    controller: controller.descriptionController,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: TextButton.icon(
-                      onPressed: addTodo,
-                      icon: Icon(
-                        Icons.done,
-                        color: Colors.white,
-                      ),
-                      label: Text(
-                        "Submit",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Divider(),
-          Obx(
-            () => Text(
-              "Todos ${controller.todos.length}",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-          Expanded(
-            child: GetX<TodoController>(
-              init: TodoController(),
-              builder: (controller) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListView.builder(
-                    itemCount: controller.todos.length,
-                    itemBuilder: (context, index) {
-                      return Dismissible(
-                        background: Container(color: Colors.red),
-                        onDismissed: (dir) {
-                          // if (dir == DismissDirection.startToEnd) {
-                          controller.deleteTodo(controller.todos[index]);
-                          // }
-                        },
-                        key: UniqueKey(),
-                        child: Card(
-                          child: ListTile(
-                            onTap: () {
-                              controller.toggleTodo(controller.todos[index]);
-                            },
-                            leading: Icon(
-                              Icons.done_all,
-                              color: controller.todos[index].isDone
-                                  ? Colors.green
-                                  : Colors.grey,
-                              size: 42,
-                            ),
-                            title: Text(
-                              controller.todos[index].title,
-                            ),
-                            subtitle: Text(
-                              controller.todos[index].description,
-                            ),
-                            trailing: Text(
-                              timeago.format(controller.todos[index].cdt),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Add your task to list",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
-                      );
-                    },
+                        SizedBox(height: 10),
+                        CustomTextFormField(
+                          borderRadius: BorderRadius.circular(25),
+                          controller: controller.titleController,
+                          height: 40.0,
+                          hintText: "Enter todo title",
+                          nextFocus: controller.descriptioinFocus,
+                        ),
+                        CustomTextFormField(
+                          focus: controller.descriptioinFocus,
+                          borderRadius: BorderRadius.circular(25),
+                          controller: controller.descriptionController,
+                          height: 100.0,
+                          hintText: "Enter description",
+                          maxLines: 10,
+                        ),
+                        // Container(
+                        //   height: 200,
+                        //   padding: const EdgeInsets.symmetric(horizontal: 10),
+                        //   decoration: BoxDecoration(
+                        //     color: Colors.grey[200],
+                        //     borderRadius: BorderRadius.circular(10),
+                        //   ),
+                        //   child: TextFormField(
+                        //     maxLines: 10,
+                        //     focusNode: controller.descriptioinFocus,
+                        //     decoration: InputDecoration(
+                        //       hintText: "Enter description",
+                        //       border: InputBorder.none,
+                        //     ),
+                        //     controller: controller.descriptionController,
+                        //   ),
+                        // ),
+                      ],
+                    ),
                   ),
-                );
-              },
+                  SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            child: TextButton.icon(
+                              onPressed: addTodo,
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                              ),
+                              label: Text(
+                                "Submit",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Divider(),
+                  Obx(
+                    () => Text(
+                      "Todos ${controller.todos.length}",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: GetX<TodoController>(
+                      init: TodoController(),
+                      builder: (controller) {
+                        return Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          child: ListView.builder(
+                            itemCount: controller.todos.length,
+                            itemBuilder: (context, index) {
+                              return Dismissible(
+                                background: Container(color: Colors.red),
+                                onDismissed: (dir) {
+                                  // if (dir == DismissDirection.startToEnd) {
+                                  controller
+                                      .deleteTodo(controller.todos[index]);
+                                  // }
+                                },
+                                key: UniqueKey(),
+                                child: Card(
+                                  child: ListTile(
+                                    onTap: () {
+                                      controller
+                                          .toggleTodo(controller.todos[index]);
+                                    },
+                                    leading: Icon(
+                                      Icons.done_all,
+                                      color: controller.todos[index].isDone
+                                          ? Colors.green
+                                          : Colors.grey,
+                                      size: 42,
+                                    ),
+                                    title: Text(
+                                      controller.todos[index].title,
+                                    ),
+                                    subtitle: Text(
+                                      controller.todos[index].description,
+                                    ),
+                                    trailing: Text(
+                                      timeago.format(
+                                        controller.todos[index].cdt,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
+        ),
+      ),
+    );
+  }
+}
+
+class CustomTextFormField extends StatelessWidget {
+  const CustomTextFormField({
+    Key? key,
+    required this.controller,
+    required this.height,
+    required this.hintText,
+    this.borderRadius,
+    this.nextFocus,
+    this.focus,
+    this.maxLines,
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final String hintText;
+  final double height;
+  final BorderRadius? borderRadius;
+  final FocusNode? nextFocus;
+  final FocusNode? focus;
+  final int? maxLines;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: borderRadius,
+      ),
+      child: TextFormField(
+        autofocus: true,
+        focusNode: focus,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          hintText: hintText,
+          border: InputBorder.none,
+        ),
+        controller: controller,
+        onEditingComplete: () {
+          nextFocus?.requestFocus();
+        },
       ),
     );
   }
