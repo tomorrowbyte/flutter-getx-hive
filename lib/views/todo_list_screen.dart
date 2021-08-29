@@ -14,8 +14,8 @@ class MyTodosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: GestureDetector(
-        onTap: (){
-          Get.off(()=> TodosScreen());
+        onTap: () {
+          Get.to(() => TodosScreen());
         },
         child: Container(
           height: 80,
