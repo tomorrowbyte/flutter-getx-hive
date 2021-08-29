@@ -13,21 +13,16 @@ class MyTodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: GestureDetector(
-        onTap: () {
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
           Get.to(() => TodosScreen());
         },
-        child: Container(
-          height: 80,
-          width: 50,
-          child: Expanded(
-            child: Column(
-              children: [
-                Image.asset('images/logo.png'),
-                Icon(Icons.add),
-              ],
-            ),
-          ),
+        label: Row(
+          children: [
+            Icon(Icons.add),
+            SizedBox(width: 10),
+            Text("Add todo"),
+          ],
         ),
       ),
       backgroundColor: Colors.grey[200],
