@@ -23,6 +23,11 @@ class TodosScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        title: Text("Add Todo"),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: Column(
         children: [
           Container(
@@ -33,13 +38,17 @@ class TodosScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Text(
-                  "Add Todo",
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Add your task to list",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
+                SizedBox(height: 10),
                 Container(
                   height: 40,
                   margin: const EdgeInsets.symmetric(vertical: 10),
