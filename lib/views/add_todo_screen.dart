@@ -24,7 +24,7 @@ class TodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: Text("Add Todo"),
         centerTitle: true,
@@ -49,7 +49,7 @@ class TodosScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Add your task to list",
+                            "Add your task",
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w900,
@@ -60,67 +60,26 @@ class TodosScreen extends StatelessWidget {
                         CustomTextFormField(
                           borderRadius: BorderRadius.circular(25),
                           controller: controller.titleController,
-                          height: 40.0,
+                          height: 50.0,
                           hintText: "Enter todo title",
                           nextFocus: controller.descriptioinFocus,
                         ),
                         CustomTextFormField(
                           focus: controller.descriptioinFocus,
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(10),
                           controller: controller.descriptionController,
                           height: 100.0,
                           hintText: "Enter description",
                           maxLines: 10,
                         ),
-                        // Container(
-                        //   height: 200,
-                        //   padding: const EdgeInsets.symmetric(horizontal: 10),
-                        //   decoration: BoxDecoration(
-                        //     color: Colors.grey[200],
-                        //     borderRadius: BorderRadius.circular(10),
-                        //   ),
-                        //   child: TextFormField(
-                        //     maxLines: 10,
-                        //     focusNode: controller.descriptioinFocus,
-                        //     decoration: InputDecoration(
-                        //       hintText: "Enter description",
-                        //       border: InputBorder.none,
-                        //     ),
-                        //     controller: controller.descriptionController,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              color: Theme.of(context).primaryColor,
-                            ),
-                            child: TextButton.icon(
-                              onPressed: addTodo,
-                              icon: Icon(
-                                Icons.done,
-                                color: Colors.white,
-                              ),
-                              label: Text(
-                                "Submit",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  CustomButton(
+                    title: "Submit",
+                    icon: Icons.done,
+                    onPressed: addTodo,
                   ),
                   SizedBox(height: 10),
                   Divider(),
@@ -133,62 +92,108 @@ class TodosScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: GetX<TodoController>(
-                      init: TodoController(),
-                      builder: (controller) {
-                        return Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 10),
-                          child: ListView.builder(
-                            itemCount: controller.todos.length,
-                            itemBuilder: (context, index) {
-                              return Dismissible(
-                                background: Container(color: Colors.red),
-                                onDismissed: (dir) {
-                                  // if (dir == DismissDirection.startToEnd) {
-                                  controller
-                                      .deleteTodo(controller.todos[index]);
-                                  // }
-                                },
-                                key: UniqueKey(),
-                                child: Card(
-                                  child: ListTile(
-                                    onTap: () {
-                                      controller
-                                          .toggleTodo(controller.todos[index]);
-                                    },
-                                    leading: Icon(
-                                      Icons.done_all,
-                                      color: controller.todos[index].isDone
-                                          ? Colors.green
-                                          : Colors.grey,
-                                      size: 42,
-                                    ),
-                                    title: Text(
-                                      controller.todos[index].title,
-                                    ),
-                                    subtitle: Text(
-                                      controller.todos[index].description,
-                                    ),
-                                    trailing: Text(
-                                      timeago.format(
-                                        controller.todos[index].cdt,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  _buildTodosList(),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Expanded _buildTodosList() {
+    return Expanded(
+      child: GetX<TodoController>(
+        init: TodoController(),
+        builder: (controller) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10),
+            child: ListView.builder(
+              itemCount: controller.todos.length,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  background: Container(color: Colors.red),
+                  onDismissed: (dir) {
+                    // if (dir == DismissDirection.startToEnd) {
+                    controller.deleteTodo(controller.todos[index]);
+                    // }
+                  },
+                  key: UniqueKey(),
+                  child: Card(
+                    child: ListTile(
+                      onTap: () {
+                        controller.toggleTodo(controller.todos[index]);
+                      },
+                      leading: Icon(
+                        Icons.done_all,
+                        color: controller.todos[index].isDone
+                            ? Colors.green
+                            : Colors.grey,
+                        size: 42,
+                      ),
+                      title: Text(
+                        controller.todos[index].title,
+                      ),
+                      subtitle: Text(
+                        controller.todos[index].description,
+                      ),
+                      trailing: Text(
+                        timeago.format(
+                          controller.todos[index].cdt,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class CustomButton extends StatelessWidget {
+  const CustomButton({
+    Key? key,
+    required this.onPressed,
+    required this.title,
+    required this.icon,
+  }) : super(key: key);
+  final VoidCallback onPressed;
+  final String title;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Theme.of(context).primaryColor,
+              ),
+              child: TextButton.icon(
+                onPressed: onPressed,
+                icon: Icon(
+                  icon,
+                  color: Colors.white,
+                ),
+                label: Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -221,7 +226,7 @@ class CustomTextFormField extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.white,
         borderRadius: borderRadius,
       ),
       child: TextFormField(
