@@ -50,20 +50,19 @@ class WelcomeScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 50),
-          ElevatedButton.icon(
-            onPressed: () {
-              Get.to(() => TodosScreen());
-            },
-            icon: Icon(Icons.add),
-            label: Text("Add Todo"),
-          ),
-          ElevatedButton.icon(
-            onPressed: () {
-              Get.to(() => MyTodosScreen());
-            },
-            icon: Icon(Icons.task),
-            label: Text("My Todos"),
-          ),
+          CustomButton(
+              onPressed: () {
+                Get.to(() => TodosScreen());
+              },
+              title: 'Add Todo',
+              icon: Icons.add),
+          SizedBox(height: 20),
+          CustomButton(
+              onPressed: () {
+                Get.to(() => MyTodosScreen());
+              },
+              title: 'My Todos',
+              icon: Icons.task),
         ],
       ),
     );
