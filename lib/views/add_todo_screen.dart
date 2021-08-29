@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_hive/controllers/todo_controller.dart';
 import 'package:getx_hive/models/todo.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class TodosScreen extends StatelessWidget {
   final controller = Get.put(TodoController());
@@ -10,9 +11,10 @@ class TodosScreen extends StatelessWidget {
     if (controller.titleController.text.isEmpty ||
         controller.descriptionController.text.isEmpty) return;
     var todo = Todo(
+      id: UniqueKey().toString(),
       title: controller.titleController.text,
       description: controller.descriptionController.text,
-      cdt: DateTime.now().toIso8601String(),
+      cdt: DateTime.now(),
     );
     controller.titleController.text = '';
     controller.descriptionController.text = '';
@@ -143,14 +145,14 @@ class TodosScreen extends StatelessWidget {
                         background: Container(color: Colors.red),
                         onDismissed: (dir) {
                           // if (dir == DismissDirection.startToEnd) {
-                          controller.deleteTodo(index);
+                          controller.deleteTodo(controller.todos[index]);
                           // }
                         },
                         key: UniqueKey(),
                         child: Card(
                           child: ListTile(
                             onTap: () {
-                              controller.toggleTodo(index);
+                              controller.toggleTodo(controller.todos[index]);
                             },
                             leading: Icon(
                               Icons.done_all,
@@ -166,7 +168,7 @@ class TodosScreen extends StatelessWidget {
                               controller.todos[index].description,
                             ),
                             trailing: Text(
-                              controller.todos[index].cdt.substring(0, 10),
+                              timeago.format(controller.todos[index].cdt),
                             ),
                           ),
                         ),

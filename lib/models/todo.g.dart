@@ -19,8 +19,9 @@ class TodoAdapter extends TypeAdapter<Todo> {
     return Todo(
       title: fields[1] as String,
       description: fields[2] as String,
-      cdt: fields[3] as String,
-      udt: fields[4] as String?,
+      cdt: fields[3] as DateTime,
+      udt: fields[4] as DateTime?,
+      id: fields[5] as String,
     );
   }
 
