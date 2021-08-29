@@ -56,8 +56,9 @@ class TodosScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         CustomTextFormField(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
                           borderRadius: BorderRadius.circular(25),
                           controller: controller.titleController,
                           height: 50.0,
@@ -65,6 +66,7 @@ class TodosScreen extends StatelessWidget {
                           nextFocus: controller.descriptioinFocus,
                         ),
                         CustomTextFormField(
+                          padding: const EdgeInsets.fromLTRB(25, 10, 10, 10),
                           focus: controller.descriptioinFocus,
                           borderRadius: BorderRadius.circular(10),
                           controller: controller.descriptionController,
@@ -75,17 +77,17 @@ class TodosScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   CustomButton(
                     title: "Submit",
                     icon: Icons.done,
                     onPressed: addTodo,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Divider(),
                   Obx(
                     () => Text(
-                      "Todos ${controller.todos.length}",
+                      "Todos (${controller.todos.length})",
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w900,
@@ -113,11 +115,22 @@ class TodosScreen extends StatelessWidget {
               itemCount: controller.todos.length,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  background: Container(color: Colors.red),
+                  background: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(Icons.delete, color: Colors.white),
+                        Icon(Icons.delete, color: Colors.white),
+                      ],
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.red,
+                    ),
+                  ),
                   onDismissed: (dir) {
-                    // if (dir == DismissDirection.startToEnd) {
                     controller.deleteTodo(controller.todos[index]);
-                    // }
                   },
                   key: UniqueKey(),
                   child: Card(
@@ -134,9 +147,6 @@ class TodosScreen extends StatelessWidget {
                       ),
                       title: Text(
                         controller.todos[index].title,
-                      ),
-                      subtitle: Text(
-                        controller.todos[index].description,
                       ),
                       trailing: Text(
                         timeago.format(
@@ -161,22 +171,26 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     required this.title,
     required this.icon,
+    this.height = 40.0,
+    this.color,
   }) : super(key: key);
   final VoidCallback onPressed;
   final String title;
   final IconData icon;
+  final double height;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 30),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              height: 40,
+              height: height,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
-                color: Theme.of(context).primaryColor,
+                color: color ?? Theme.of(context).primaryColor,
               ),
               child: TextButton.icon(
                 onPressed: onPressed,
@@ -209,6 +223,7 @@ class CustomTextFormField extends StatelessWidget {
     this.nextFocus,
     this.focus,
     this.maxLines,
+    this.padding,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -218,13 +233,14 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? nextFocus;
   final FocusNode? focus;
   final int? maxLines;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
       margin: const EdgeInsets.symmetric(vertical: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: padding,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: borderRadius,

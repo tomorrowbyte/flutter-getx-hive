@@ -35,7 +35,8 @@ class MyTodosScreen extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                Icon(Icons.notification_important),
+                // Icon(Icons),
+                SizedBox()
               ],
             ),
           ),
@@ -50,7 +51,9 @@ class MyTodosScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: _buildCompleted()),
+          Expanded(
+            child: _buildCompleted(),
+          ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
             child: Text(
@@ -61,7 +64,9 @@ class MyTodosScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: _buildInCompleted()),
+          Expanded(
+            child: _buildInCompleted(),
+          ),
         ],
       ),
     );
