@@ -22,7 +22,7 @@ class TodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Add Todo"),
         centerTitle: true,
@@ -54,7 +54,7 @@ class TodosScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: TextFormField(
@@ -73,11 +73,7 @@ class TodosScreen extends StatelessWidget {
                   height: 200,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    // border: Border.all(
-                    //   width: 1,
-                    //   color: Colors.grey,
-                    // ),
+                    color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextFormField(
@@ -94,10 +90,34 @@ class TodosScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
-          ElevatedButton.icon(
-            onPressed: addTodo,
-            icon: Icon(Icons.add),
-            label: Text("Submit"),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: TextButton.icon(
+                      onPressed: addTodo,
+                      icon: Icon(
+                        Icons.done,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        "Submit",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: 10),
           Divider(),
@@ -114,42 +134,45 @@ class TodosScreen extends StatelessWidget {
             child: GetX<TodoController>(
               init: TodoController(),
               builder: (controller) {
-                return ListView.builder(
-                  itemCount: controller.todos.length,
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                      background: Container(color: Colors.red),
-                      onDismissed: (dir) {
-                        // if (dir == DismissDirection.startToEnd) {
-                        controller.deleteTodo(index);
-                        // }
-                      },
-                      key: UniqueKey(),
-                      child: ListTile(
-                        onTap: () {
-                          controller.toggleTodo(index);
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  child: ListView.builder(
+                    itemCount: controller.todos.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        background: Container(color: Colors.red),
+                        onDismissed: (dir) {
+                          // if (dir == DismissDirection.startToEnd) {
+                          controller.deleteTodo(index);
+                          // }
                         },
-                        leading: Icon(
-                          controller.todos[index].isDone
-                              ? Icons.done
-                              : Icons.cancel,
-                          color: controller.todos[index].isDone
-                              ? Colors.blue
-                              : Colors.grey,
-                          size: 42,
+                        key: UniqueKey(),
+                        child: Card(
+                          child: ListTile(
+                            onTap: () {
+                              controller.toggleTodo(index);
+                            },
+                            leading: Icon(
+                              Icons.done_all,
+                              color: controller.todos[index].isDone
+                                  ? Colors.green
+                                  : Colors.grey,
+                              size: 42,
+                            ),
+                            title: Text(
+                              controller.todos[index].title,
+                            ),
+                            subtitle: Text(
+                              controller.todos[index].description,
+                            ),
+                            trailing: Text(
+                              controller.todos[index].cdt.substring(0, 10),
+                            ),
+                          ),
                         ),
-                        title: Text(
-                          controller.todos[index].title,
-                        ),
-                        subtitle: Text(
-                          controller.todos[index].description,
-                        ),
-                        trailing: Text(
-                          controller.todos[index].cdt.substring(0, 10),
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 );
               },
             ),

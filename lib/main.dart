@@ -37,14 +37,6 @@ class MyHomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // ElevatedButton.icon(
-          //   onPressed: () {
-          //     controller.clearTodos();
-          //   },
-          //   icon: Icon(Icons.delete_forever),
-          //   label: Text("Clear"),
-          // ),
-          // SizedBox(height: 20),
           Center(
             child: Text(
               "Welcome to",
@@ -57,7 +49,7 @@ class MyHomePage extends StatelessWidget {
           SizedBox(height: 10),
           Center(
             child: Text(
-              "My Todo",
+              "Todoey",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -69,8 +61,15 @@ class MyHomePage extends StatelessWidget {
             onPressed: () {
               Get.to(() => TodosScreen());
             },
-            icon: Icon(Icons.login),
-            label: Text("Enter"),
+            icon: Icon(Icons.add),
+            label: Text("Add Todo"),
+          ),
+          ElevatedButton.icon(
+            onPressed: () {
+              Get.to(() => TodosScreen());
+            },
+            icon: Icon(Icons.task),
+            label: Text("My Todos"),
           ),
         ],
       ),
