@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_hive/controllers/todo_controller.dart';
 import 'package:getx_hive/models/todo.dart';
+import 'package:getx_hive/views/add_todo_screen.dart';
 import 'package:getx_hive/views/view_todo_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -12,6 +13,18 @@ class MyTodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(() => TodosScreen());
+        },
+        label: Row(
+          children: [
+            Icon(Icons.add),
+            SizedBox(width: 10),
+            Text("Add todo"),
+          ],
+        ),
+      ),
       backgroundColor: Colors.grey[200],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +48,8 @@ class MyTodosScreen extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                Icon(Icons.notification_important),
+                // Icon(Icons),
+                SizedBox()
               ],
             ),
           ),
@@ -50,7 +64,9 @@ class MyTodosScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: _buildCompleted()),
+          Expanded(
+            child: _buildCompleted(),
+          ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
             child: Text(
@@ -61,7 +77,9 @@ class MyTodosScreen extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(child: _buildInCompleted()),
+          Expanded(
+            child: _buildInCompleted(),
+          ),
         ],
       ),
     );

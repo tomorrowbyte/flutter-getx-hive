@@ -2,7 +2,7 @@
     package="com.example.getx_hive">
    <application
         android:label="getx_hive"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

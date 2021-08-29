@@ -15,12 +15,16 @@ class WelcomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Container(
+            child: Image.asset('images/logo.png'),
+            height: 150,
+          ),
           Center(
             child: Text(
               "Welcome to",
               style: TextStyle(
                 fontWeight: FontWeight.w300,
-                fontSize: 18,
+                fontSize: 22,
               ),
             ),
           ),
@@ -30,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
               "Todoey",
               style: TextStyle(
                 fontSize: 22,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w900,
               ),
             ),
           ),
@@ -45,24 +49,28 @@ class WelcomeScreen extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w300,
-                fontSize: 18,
               ),
             ),
           ),
           SizedBox(height: 50),
           CustomButton(
-              onPressed: () {
-                Get.to(() => TodosScreen());
-              },
-              title: 'Add Todo',
-              icon: Icons.add),
+            height: 50.0,
+            onPressed: () {
+              Get.to(() => TodosScreen());
+            },
+            color: Colors.blue,
+            title: 'Add Todo',
+            icon: Icons.add,
+          ),
           SizedBox(height: 20),
           CustomButton(
-              onPressed: () {
-                Get.to(() => MyTodosScreen());
-              },
-              title: 'My Todos',
-              icon: Icons.task),
+            height: 50.0,
+            onPressed: () {
+              Get.to(() => MyTodosScreen());
+            },
+            title: 'My Todos',
+            icon: Icons.task,
+          ),
         ],
       ),
     );
