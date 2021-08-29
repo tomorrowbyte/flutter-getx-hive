@@ -84,17 +84,17 @@ class TodosScreen extends StatelessWidget {
                     onPressed: addTodo,
                   ),
                   const SizedBox(height: 10),
-                  Divider(),
-                  Obx(
-                    () => Text(
-                      "Todos (${controller.todos.length})",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                      ),
-                    ),
-                  ),
-                  _buildTodosList(),
+                  // Divider(),
+                  // Obx(
+                  //   () => Text(
+                  //     "Todos (${controller.todos.length})",
+                  //     style: TextStyle(
+                  //       fontSize: 22,
+                  //       fontWeight: FontWeight.w900,
+                  //     ),
+                  //   ),
+                  // ),
+                  // _buildTodosList(),
                 ],
               ),
             ),

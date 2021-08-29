@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_hive/controllers/todo_controller.dart';
 import 'package:getx_hive/models/todo.dart';
+import 'package:getx_hive/views/add_todo_screen.dart';
 import 'package:getx_hive/views/view_todo_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -12,6 +13,23 @@ class MyTodosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: GestureDetector(
+        onTap: (){
+          Get.off(()=> TodosScreen());
+        },
+        child: Container(
+          height: 80,
+          width: 50,
+          child: Expanded(
+            child: Column(
+              children: [
+                Image.asset('images/logo.png'),
+                Icon(Icons.add),
+              ],
+            ),
+          ),
+        ),
+      ),
       backgroundColor: Colors.grey[200],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
