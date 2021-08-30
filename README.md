@@ -14,6 +14,8 @@ Clone the project and run the following commands.
 
 `flutter run`
 
+## 👏 Support this project
+Please Hit the star ⭐ button :) 
 
 ## Need help?
 Feel free to ping me on twitter or contact me using my website. 
