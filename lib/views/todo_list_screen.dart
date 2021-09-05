@@ -15,7 +15,7 @@ class MyTodosScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.to(() => TodosScreen());
+          Get.off(() => TodosScreen());
         },
         label: Row(
           children: [
