@@ -7,7 +7,6 @@ import 'views/welcome_screen.dart';
 
 void main() async {
   await Hive.initFlutter();
-  Hive.deleteBoxFromDisk('testBox');
   runApp(MyApp());
 }
 
