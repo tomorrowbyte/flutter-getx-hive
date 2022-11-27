@@ -21,32 +21,37 @@ class ViewTodoScreen extends StatelessWidget {
         children: [
           SizedBox(height: 40),
           Icon(
-            Icons.task_outlined,
+            Icons.data_exploration,
             size: 60,
+            color: Theme.of(context).primaryColor,
           ),
           SizedBox(height: 10),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                Row(
-                  children: [
-                    Text("Title: "),
-                    Text(todo.title),
-                  ],
+                Text(
+                  todo.title,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
+                SizedBox(height: 10),
                 Row(
                   children: [
-                    Text("Description: "),
-                    Text(todo.description),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text("Created: "),
                     Text(
-                      timeago.format(todo.cdt),
-                    )
+                      "Created: ",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(timeago.format(todo.cdt))
+                  ],
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text(
+                      "Description: ",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    Text(todo.description),
                   ],
                 ),
               ],

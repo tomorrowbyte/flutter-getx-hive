@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_hive/controllers/todo_controller.dart';
@@ -25,62 +24,52 @@ class MyTodosScreen extends StatelessWidget {
           ],
         ),
       ),
-      backgroundColor: Colors.grey[200],
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(
+          "My Todos",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 45),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Icon(Icons.arrow_back_ios_new),
-                ),
-                Text(
-                  "My Todos",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                // Icon(Icons),
-                SizedBox()
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              "Completed",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ),
-          Expanded(
+          SizedBox(height: 20),
+          _buildSection(
+            title: "Completed",
             child: _buildCompleted(),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 15),
-            child: Text(
-              "Remaining",
+          _buildSection(
+            child: _buildRemaining(),
+            title: "Remaining",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSection({String? title, Widget? child}) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title!,
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.w800,
               ),
             ),
-          ),
-          Expanded(
-            child: _buildInCompleted(),
-          ),
-        ],
+            Expanded(
+              child: child!,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -112,7 +101,7 @@ class MyTodosScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInCompleted() {
+  Widget _buildRemaining() {
     return Obx(
       () => Container(
         child: ListView.builder(
@@ -150,14 +139,14 @@ class TodoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
-      margin: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+      margin: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       height: 100,
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.grey[300]!,
-            blurRadius: 20,
-            spreadRadius: 1,
+            color: Colors.grey.shade100,
+            blurRadius: 2,
+            spreadRadius: 10,
           )
         ],
         color: isDone ? Colors.green[50] : Colors.white,
